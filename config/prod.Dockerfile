@@ -1,6 +1,7 @@
 FROM golang:1.22.4-alpine
-WORKDIR /code
-COPY . /code
+WORKDIR /app
+COPY . /app
+RUN go install github.com/air-verse/air@latest
 RUN go mod download
 RUN go mod tidy
 
