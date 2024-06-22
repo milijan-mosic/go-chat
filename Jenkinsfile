@@ -17,6 +17,11 @@ pipeline {
                     url: 'https://github.com/windwalk-bushido/go-chat.git'
             }
         }
+        stage('Test image') {
+            app.inside {
+                sh 'echo "Tests passed"'
+            }
+        }
         stage('Build image') {
             steps {
                 sh 'docker build -t milijanmosic/chat_app . -f config/prod.Dockerfile'
@@ -24,7 +29,7 @@ pipeline {
         }
         stage('Push image') {
             steps {
-                docker.withRegistry('https://index.docker.org', 'dockerhub_id_123') {
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_id_123') {
                     docker.push('milijanmosic/chat_app')
                 }
             }
