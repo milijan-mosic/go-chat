@@ -2,11 +2,9 @@ pipeline {
     agent any
 
     triggers {
-        scm {
-            credentialsId: 'github_id_123'
-            url: 'https://github.com/windwalk-bushido/go-chat.git'
-            branches '@master'
-        }
+        credentialsId: 'github_id_123'
+        url: 'https://github.com/windwalk-bushido/go-chat.git'
+        branches '@master'
     }
 
     stages {
@@ -18,7 +16,7 @@ pipeline {
             }
         }
         stage('Test image') {
-            app.inside {
+            steps {
                 sh 'echo "Tests passed"'
             }
         }
@@ -28,9 +26,11 @@ pipeline {
             }
         }
         stage('Push image') {
-            steps {
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_id_123') {
-                    docker.push('milijanmosic/chat_app')
+            script {
+                steps {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_id_123') {
+                        docker.push('milijanmosic/chat_app')
+                    }
                 }
             }
         }
